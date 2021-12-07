@@ -1,7 +1,6 @@
 import numpy as np
 
 raw = open("inputs/6.txt","r").readline()
-raw = raw[:-1]
 input_array= [int(i) for i in np.asarray(raw.split(","))]
 #input_array = [3,4,3,1,2]
 
