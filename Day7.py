@@ -14,7 +14,7 @@ def alignCrabsPartTwo(input):
 	result_array=[]
 	for i in range(min(input), max(input)+1):
 		result_array.append(sum([(abs(horizontalPos-i)+1)/2*(abs(horizontalPos -i)) for horizontalPos in input]))	
-	print("The crabs align on",''.join(map(str,np.where(result_array == np.amin(result_array))[0])),"and spend", np.amin(result_array), "fuel")
+	print("The crabs align on",''.join(map(str,np.where(result_array == np.amin(result_array))[0])),"and spend", int(np.amin(result_array)), "fuel")
 
 
 alignCrabsPartOne(test_array)
