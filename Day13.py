@@ -35,7 +35,7 @@ def findCode(inputArray):
 	for fold in instructions:
 		transparantPaper = foldInput(transparantPaper,fold)
 		print('There are', sum(sum(transparantPaper>0)),'dots visible')
-	print(transparantPaper)
+	print(np.where(transparantPaper>0 , '#', ' '))
 
 findCode(test_array)
 findCode(input_array)
