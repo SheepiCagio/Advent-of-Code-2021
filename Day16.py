@@ -5,27 +5,21 @@ input_string= [i.replace("\n", "") for i in raw][0]
 
 #input_string = 'CE00C43D881120'
 packets = []
-subpackets = []
 binaryString = bin(int(input_string, base=16))[2:].zfill(len(input_string)*4)
 
 def typeBin(inputBin):
 	if not int(inputBin,2) == 0:
 		temp = [int(inputBin[0:3],2), int(inputBin[3:6],2),inputBin[6:]]
 		packets.append(temp)
-		tempSubPacket = []
 		value = ''
 		if temp[1] == 4: #unpack literal value
 			remainBin = "0"
-			tempSubPacket.append(temp[1])
 			while temp[2][0] == '1':
-				tempSubPacket.append(temp[2][1:5])
 				value += temp[2][1:5]
 				temp[2] = temp[2][5:]
-			tempSubPacket.append(temp[2][1:5])
 			value += temp[2][1:5]
 			value = int(value,2)
 			remainBin = temp[2][5:]
-			subpackets.append(tempSubPacket)
 			return remainBin, value
 		else: #unpack operator value
 			if temp[2][0] == '0':
