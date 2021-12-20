@@ -16,7 +16,18 @@ def addLayerZero(grid):
 	grid = np.vstack((grid, np.zeros(len(grid[0]), dtype=int)[np.newaxis,:]))
 	return grid
 
-def pictureEnhancer(input_array):
+def addLayerOnes(grid):
+#if sum(np.asarray(grid)[:,0]) > 0: 
+	grid = np.hstack((np.ones(len(grid), dtype=int)[:, np.newaxis],grid))
+#if sum(np.asarray(grid)[0,:]) > 0:
+	grid = np.vstack((np.ones(len(grid[0]), dtype=int)[np.newaxis,:],grid))
+# if sum(np.asarray(grid)[:,-1]) > 0: 
+	grid = np.hstack((grid,np.ones(len(grid), dtype=int)[:, np.newaxis]))
+# if sum(np.asarray(grid)[-1,:]) > 0:
+	grid = np.vstack((grid, np.ones(len(grid[0]), dtype=int)[np.newaxis,:]))
+	return grid
+
+def pictureEnhancer(input_array,iter):
 	splitvalue = False
 	index_string = ''
 	grid = []
@@ -29,17 +40,22 @@ def pictureEnhancer(input_array):
 		else: 
 			grid.append(list(i))
 	grid = [[int(i) for i in row] for row in grid]
-	
-	grid = enhancer(grid, index_string)
-	grid = enhancer(grid, index_string)
-	print('The number of lit pixels is:', sum(sum(grid)))
+	for x in range(1,iter+1):
+                grid = enhancer(grid, index_string,x)
+        
+        print('The number of lit pixels is:', sum(sum(grid)))
 	
 
-def enhancer(grid, index_string):	
-	grid = addLayerZero(grid)
-	output_grid = np.zeros((len(grid),len(grid[0])),dtype=int)
-	grid = addLayerZero(grid)
-	print(len(grid), len(grid[0]))
+def enhancer(grid, index_string,iter):	
+	if iter == 1 or index_string[0] == 0 or (iter % 2 == 0 and index_string[9] == 0):
+                grid = addLayerZero(grid)
+	        output_grid = np.zeros((len(grid),len(grid[0])),dtype=int)
+	        grid = addLayerZero(grid)
+        elif (index_string[0] == 1 and index_string [9] == 1) or  (iter % 2 == 1 and index_string[9] == 0):
+                grid = addLayerOnes(grid)
+	        output_grid = np.zeros((len(grid),len(grid[0])),dtype=int)
+	        grid = addLayerOnes(grid)
+
 	for i in range(1,len(grid)-1): 
 		for j in range(1, len(grid[i])-1):
 			binStr = ''
@@ -49,5 +65,5 @@ def enhancer(grid, index_string):
 			output_grid[i-1][j-1] = index_string[int(binStr,2)]
 	return output_grid
 
-pictureEnhancer(test_array)
-pictureEnhancer(input_array)
+pictureEnhancer(test_array,2)
+pictureEnhancer(input_array,2)
